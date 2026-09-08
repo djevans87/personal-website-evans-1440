@@ -1,1 +1,78 @@
-body { background: whitesmoke; }
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+figure {
+    margin: 0 0 1.5rem;
+}
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 1.5rem;
+}
+
+.profile img {
+    width: 200px;
+    height: auto;
+    object-fit: cover;
+    object-position: center 25%;
+    border-radius: 50%;
+}
+
+figcaption {
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    max-width: 24ch;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.project-grid {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+.project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    height: 100%;
+}
+
+.project-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.tech-stack {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-stack li {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+}
