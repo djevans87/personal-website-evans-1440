@@ -6,9 +6,11 @@
     <meta content="Personal site of Darian Evans, software engineer and student." name="description">
     <title>Darian Evans Personal Website</title>
     <link href="css/base.css" rel="stylesheet">
+<!--    theme link has an id to set the preferred theme on first load and switch between light and dark mode.-->
     <link href="css/theme-light.css" id="theme" rel="stylesheet">
     <script defer src="js/shared.js"></script>
     <script defer src="js/main.js"></script>
+    <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
 <header>
@@ -178,7 +180,7 @@
                     <figure>
                         <img alt="Bridal Beauty Couture home page"
                              height="1440"
-                             loading="lazy" src="images/bridal-beauty-home.png" width="2660">
+                             loading="lazy" src="images/projects/bridal-beauty-home.png" width="2660">
                     </figure>
                     <h4>Bridal Beauty</h4>
                     <p>Booking site for an onsite bridal hair and makeup company.</p>
@@ -199,7 +201,7 @@
                     <figure>
                         <img alt="Allavance Landscape &amp; Design home page"
                              height="400"
-                             loading="lazy" src="images/allavance-landscape-home-page.png" width="640">
+                             loading="lazy" src="images/projects/allavance-landscape-home-page.png" width="640">
                     </figure>
                     <h4>Allavance Landscape &amp; Design</h4>
                     <p>Booking and gallery site for a Landscape and Hardscape company.</p>
@@ -230,11 +232,11 @@
 </main>
 
 <footer>
-    <!-- Falls back to a hardcoded year if JavaScript doesn't run of 1987 because that is when I was born!!-->
-    <p><small>&copy; <span id="year">1987</span> Darian Evans &middot; Built for CIS 1440</small></p>
-    <small> Weather Icons by
-        <a href=https://www.svgrepo.com/" target="_blank" rel="noopener noreferrer">SVG Repo</a>
-    </small>
+        <!--    there is a hardcoded year in case the user has javascript turned off-->
+    <p><small>&copy; <span id="year">2026</span> Darian Evans &middot; Built for CIS 1440</small></p>
+    <p><small> Weather Icons by
+        <a href="https://www.svgrepo.com/" target="_blank" rel="noopener noreferrer">SVG Repo</a>
+    </small></p>
 </footer>
 </body>
 </html>

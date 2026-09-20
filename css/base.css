@@ -318,7 +318,7 @@ footer {
     flex-shrink: 0;
     width: 44px;
     height: 44px;
-    background-color: var(--accent);
+    background-color: var(--icon-color);
     -webkit-mask: var(--icon) center / contain no-repeat;
     mask: var(--icon) center / contain no-repeat;
 }
@@ -329,6 +329,10 @@ footer {
     align-items: center;
     gap: 0.75rem;
     margin-bottom: 1.25rem;
+}
+
+#name-form[hidden] {
+    display: none;
 }
 
 #name-form input {
