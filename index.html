@@ -1,48 +1,242 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Personal site of Darian Evans, software engineer and student.">
-  <title>Darian Evans</title>
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/theme-light.css" id="theme">
-  <script src="js/theme.js" defer></script>
-  <script src="js/main.js" defer></script>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Personal site of Darian Evans, software engineer and student." name="description">
+    <title>Darian Evans Personal Website</title>
+    <link href="css/base.css" rel="stylesheet">
+<!--    theme link has an id to set the preferred theme on first load and switch between light and dark mode.-->
+    <link href="css/theme-light.css" id="theme" rel="stylesheet">
+    <script defer src="js/shared.js"></script>
+    <script defer src="js/main.js"></script>
+    <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
-  <header>
-    <h1>Darian Evans</h1>
-    <button type="button" id="theme-toggle">Switch theme</button>
-  </header>
+<header>
+    <h1>Darian Evans Personal Website</h1>
+    <button id="theme-toggle" type="button">Switch theme</button>
+</header>
 <nav aria-label="main navigation">
-  <ul>
-    <li><a href="index.html" aria-current="page">Home</a></li>
-    <li><a href="game.html">Block Drop</a></li>
-  </ul>
+    <ul>
+        <li><a aria-current="page" href="index.html">Home</a></li>
+        <li><a href="game.html">Block Drop</a></li>
+    </ul>
 </nav>
 <main>
-  <section id="about">
-    <h2>About Me</h2>
-    <p>Hello I am Darian, here is my Bio!!</p>
-  </section>
-  <section id="classes">
-    <h2>My Classes</h2>
-    <p>Here are some classes I've taken</p>
-    <ul>
-      <li>CIS 1440: Front-End Web Technologies</li>
-      <li>CIS 2131: Python</li>
-      <li>CIS 1512: Software Engineering</li>
-    </ul>
-  </section>
-  <section id="projects">
-    <h2>Projects</h2>
-    <p>Here are some of my personal projects</p>
-  </section>
+    <section id="welcome">
+        <h2>Welcome</h2>
+
+        <form id="name-form">
+            <label for="name-input">What is your name?</label>
+            <input type="text" id="name-input" name="name" autocomplete="given-name" required>
+            <button type="submit">Save</button>
+        </form>
+
+        <div class="greeting-box">
+            <span id="weather-icon" class="weather-icon" aria-hidden="true"></span>
+            <p><output id="greeting" aria-live="polite">Loading...</output></p>
+        </div>
+
+        <p id="last-visit" class="muted-line"></p>
+
+    </section>
+    <section id="about">
+        <h2>About Me</h2>
+
+        <figure class="profile">
+            <img alt="Cartoon-style portrait of Darian Evans"
+                 height="1536"
+                 src="images/profile-picture-realistic-cartoon.png" width="1024">
+            <figcaption>An illustrated version of me, wearing my company branded sweatshirt.</figcaption>
+        </figure>
+
+        <p>I'm a full stack developer at Ford, and I take freelance web work on the
+            side. Most of that has been Next.js sites for small businesses, including
+            a booking site for a bridal beauty company and a gallery site for a
+            landscape design firm.</p>
+
+        <p>I'm back in school at Oakland Community College, working through
+            prerequisites before starting a Master's in computer science. I want to
+            focus on machine learning and AI, which is a long way from the CSS I'm
+            writing this week, but you have to start somewhere.</p>
+
+        <p>Outside of work I spend most of my free time on my boat. It's either
+            very relaxing or a running list of repairs, depending on the week.</p>
+    </section>
+    <section id="classes">
+        <h2>My Classes</h2>
+        <p>Here are some classes I'm currently taking at OCC:</p>
+        <div class="table-wrap">
+            <table>
+                <caption>Fall 2026 course schedule</caption>
+                <thead>
+                <tr>
+                    <th scope="col">Course</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Format</th>
+                    <th scope="col">Credits</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">CIS 1440</th>
+                    <td>Front-End Web Technologies</td>
+                    <td>Online</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th scope="row">CIS 2131</th>
+                    <td>Python Programming</td>
+                    <td>Online</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th scope="row">CIS 1512</th>
+                    <td>Software Engineering</td>
+                    <td>Online</td>
+                    <td>3</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <caption>Winter 2027 course schedule</caption>
+                <thead>
+                <tr>
+                    <th scope="col">Course</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Format</th>
+                    <th scope="col">Credits</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">CIS 2454</th>
+                    <td>Full Stack Web Development</td>
+                    <td>Online</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th scope="row">CIS 2777</th>
+                    <td>Introduction to Applied AI</td>
+                    <td>Online</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th scope="row">CIS 2818</th>
+                    <td>Mobile App Dev (Android)</td>
+                    <td>Online</td>
+                    <td>4</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <caption>Summer 2027 course schedule</caption>
+                <thead>
+                <tr>
+                    <th scope="col">Course</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Format</th>
+                    <th scope="col">Credits</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">CIS 2858</th>
+                    <td>Cloud Native Systems</td>
+                    <td>Online</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th scope="row">CIS 2878</th>
+                    <td>DevOps Engineering</td>
+                    <td>Online</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <th scope="row">CIS 2991</th>
+                    <td>Software Engineering Capstone</td>
+                    <td>Online</td>
+                    <td>3</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section id="projects">
+        <h2>Projects</h2>
+        <p>Here are some of my personal and professional projects that I currently am working on, and have GitHub
+            repositories for:</p>
+        <h3>Paid Projects</h3>
+        <p>These are some my freelance projects that I was hired to build. The repositories are private, since these
+            companies are currently in operation. I built both sites using Next.js and deployed using Vercel.</p>
+        <ul class="project-grid">
+            <li>
+                <article class="project-card">
+                    <figure>
+                        <img alt="Bridal Beauty Couture home page"
+                             height="1440"
+                             loading="lazy" src="images/projects/bridal-beauty-home.png" width="2660">
+                    </figure>
+                    <h4>Bridal Beauty</h4>
+                    <p>Booking site for an onsite bridal hair and makeup company.</p>
+                    <ul class="tech-stack">
+                        <li>Next.js</li>
+                        <li>React</li>
+                        <li>Vercel</li>
+                    </ul>
+                    <a href="https://www.bridalbeautycouture.com/"
+                       rel="noopener noreferrer" target="_blank">
+                        Visit site<span aria-hidden="true"> ↗</span><span
+                            class="visually-hidden">(opens in a new tab)</span>
+                    </a>
+                </article>
+            </li>
+            <li>
+                <article class="project-card">
+                    <figure>
+                        <img alt="Allavance Landscape &amp; Design home page"
+                             height="400"
+                             loading="lazy" src="images/projects/allavance-landscape-home-page.png" width="640">
+                    </figure>
+                    <h4>Allavance Landscape &amp; Design</h4>
+                    <p>Booking and gallery site for a Landscape and Hardscape company.</p>
+                    <ul class="tech-stack">
+                        <li>Next.js</li>
+                        <li>React</li>
+                        <li>Vercel</li>
+                    </ul>
+                    <a href="https://www.allavancelandscape.com/" rel="noopener noreferrer" target="_blank">
+                        Visit site<span aria-hidden="true">↗</span>
+                        <span class="visually-hidden">(opens in a new tab)</span></a>
+                </article>
+            </li>
+        </ul>
+        <h3>Personal Projects</h3>
+        <p>These are personal projects I started for continued learning and coding practice. They currently live in
+            GitHub:</p>
+        <ul>
+            <li><a href="https://github.com/djevans87/study-guide-app" rel="noopener noreferrer" target="_blank">Study
+                Guide App (WIP)<span aria-hidden="true">↗</span>
+                <span class="visually-hidden">(opens in a new tab)</span></a></li>
+            <li><a href="https://github.com/djevans87/eat-at-robs-pizza" rel="noopener noreferrer" target="_blank">Eat
+                At Rob's Pizza (WIP)<span aria-hidden="true">↗</span>
+                <span class="visually-hidden">(opens in a new tab)</span></a></li>
+            <li><a href="game.html">Block Drop</a></li>
+        </ul>
+    </section>
 </main>
 
 <footer>
-  <p><small>&copy;<span id="year">2026</span> Darian Evans &middot; CIS 1440</small></p>
+        <!--    there is a hardcoded year in case the user has javascript turned off-->
+    <p><small>&copy; <span id="year">2026</span> Darian Evans &middot; Built for CIS 1440</small></p>
+    <p><small> Weather Icons by
+        <a href="https://www.svgrepo.com/" target="_blank" rel="noopener noreferrer">SVG Repo</a>
+    </small></p>
 </footer>
 </body>
 </html>
