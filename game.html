@@ -10,6 +10,8 @@
     <script src="js/shared.js" defer></script>
     <script src="js/game.js" defer></script>
     <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
 <header>
@@ -22,20 +24,46 @@
         <li><a href="game.html" aria-current="page">Block Drop</a></li>
     </ul>
 </nav>
-<main>
-    <h2>Block Drop</h2>
+<main class="game-page">
+    <h2 class="game-title">Block Drop</h2>
     <div class="game-layout">
         <div id="board"></div>
         <aside class="tray">
-            <h3>Score</h3>
-            <p class="score"><output id="score">0</output></p>
-            <h3>Next</h3>
-            <div class="preview" id="preview-0"></div>
-            <div class="preview" id="preview-1"></div>
-            <div class="preview" id="preview-2"></div>
+            <div class="tray-card">
+                <h3>Level</h3>
+                <output id="level" class="stat-value">1</output>
+            </div>
+
+            <div class="tray-card">
+                <h3>Score</h3>
+                <output id="score" class="stat-value">0</output>
+            </div>
+
+            <div class="tray-card">
+                <h3>Lines</h3>
+                <output id="lines" class="stat-value">0</output>
+            </div>
+
+            <div class="tray-card">
+                <h3>Next</h3>
+                <div class="preview" id="preview-0"></div>
+                <div class="preview" id="preview-1"></div>
+                <div class="preview" id="preview-2"></div>
+            </div>
+
+            <div class="tray-card">
+                <h3>High Scores</h3>
+                <ol class="high-scores">
+                    <li><output id="high-score-0">–</output></li>
+                    <li><output id="high-score-1">–</output></li>
+                    <li><output id="high-score-2">–</output></li>
+                    <li><output id="high-score-3">–</output></li>
+                    <li><output id="high-score-4">–</output></li>
+                </ol>
+            </div>
         </aside>
     </div>
-    <p>
+    <p class="game-controls">
         <button type="button" id="restart">Restart</button>
         <button type="button" id="pause">Pause</button>
     </p>
@@ -45,7 +73,7 @@
         <p>You scored <output id="final-score">0</output>.</p>
         <button type="button" id="play-again" autofocus>Play again</button>
     </dialog>
-    <p><a href="index.html#projects">Back to my current projects</a></p>
+    <p class="project-return"><a href="index.html#projects">Back to my current projects</a></p>
 </main>
 
 <footer>

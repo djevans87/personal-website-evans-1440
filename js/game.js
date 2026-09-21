@@ -17,7 +17,13 @@ let currentShape = PIECES.T;
 let currentRow = 0;
 let currentCol = 3;
 
-const DROP_INTERVAL = 800; // milliseconds between ticks
+const DROP_INTERVAL = 800;// milliseconds between ticks
+const MIN_INTERVAL = 150;
+const POINTS_PER_LEVEL = 1000;
+const SPEED_STEP = 100;
+
+let currentInterval = DROP_INTERVAL;
+let level = 0;
 
 let dropTimer;
 
@@ -40,6 +46,29 @@ const scoreEl = document.querySelector('#score');
 //weighted score for clearing 4 rows at once instead of linear scoring
 const LINE_SCORES = [0, 100, 300, 500, 800];
 
+const gameOverEl = document.querySelector('#game-over');
+const finalScoreEl = document.querySelector('#final-score');
+const restartButton = document.querySelector('#restart');
+const pauseButton = document.querySelector('#pause');
+const playAgainButton = document.querySelector('#play-again');
+
+let isGameOver = false;
+let isPaused = false;
+
+const HIGH_SCORES_KEY = 'block-drop-high-scores';
+const highScoreEls = [
+    document.querySelector('#high-score-0'),
+    document.querySelector('#high-score-1'),
+    document.querySelector('#high-score-2'),
+    document.querySelector('#high-score-3'),
+    document.querySelector('#high-score-4'),
+];
+
+const levelEl = document.querySelector('#level');
+
+let linesTotal = 0;
+const linesEl = document.querySelector('#lines');
+
 function buildCells() {
     boardEl.innerHTML = '';
     cells.length = 0;
@@ -49,9 +78,20 @@ function buildCells() {
         boardEl.appendChild(cell);
         cells.push(cell);
     }
+
+}
+function drawHighScores() {
+    const currentHighScore = getHighestScores();
+    for (let s = 0; s < highScoreEls.length; s++) {
+        const el = highScoreEls[s];
+        if (el) {
+            el.textContent = currentHighScore[s] !== undefined ? String(currentHighScore[s]) : '-';
+        }
+    }
 }
 
 function drawCells() {
+
     // this is for the locked in blocks
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
@@ -144,6 +184,14 @@ function rotatePiece() {
 }
 
 document.addEventListener('keydown', function (event) {
+    if (event.key === 'p' || event.key === 'P') {
+        event.preventDefault();
+        togglePause();
+        return;
+    }
+    if (isGameOver || isPaused) {
+        return;
+    }
     switch (event.key) {
         case 'ArrowLeft':
             event.preventDefault();
@@ -254,6 +302,9 @@ function spawnNewPiece() {
 
     fillQueue();
     drawPreview();
+
+    //this notifies that the stack reached the top
+    return isValidPlacement(currentShape, currentRow, currentCol);
 }
 
 function clearLines() {
@@ -269,13 +320,69 @@ function clearLines() {
     return linesCleared;
 }
 
+function updateSpeed() {
+    const newLevel = Math.floor(score / POINTS_PER_LEVEL); // creates level numbers instead of matching cases
+
+    if (newLevel === level) {
+        return;
+    }
+
+    level = newLevel;
+    currentInterval = Math.max(MIN_INTERVAL, DROP_INTERVAL - level * SPEED_STEP);
+
+    if (!isPaused && !isGameOver) {
+        clearInterval(dropTimer);
+        dropTimer = setInterval(gravityTick, currentInterval);
+    }
+
+    levelEl.textContent = String(level + 1);
+}
+
 function addScore(linesCleared) {
     if (linesCleared === 0) {
         return;
     }
+    linesTotal += linesCleared;
+    linesEl.textContent = String(linesTotal);
 
     score += LINE_SCORES[linesCleared];
     scoreEl.textContent = String(score);
+    updateSpeed();
+}
+//return empty array instead of null so pushes just work
+function getHighestScores() {
+    const storedHighScores = localStorage.getItem(HIGH_SCORES_KEY);
+    if (!storedHighScores) {
+        return [];
+    }
+    try {
+        const parsedHighestScore = JSON.parse(storedHighScores);
+        return Array.isArray(parsedHighestScore) ? parsedHighestScore : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function saveHighestScores(newScore) {
+    const highScores = getHighestScores();
+     highScores.push(newScore);
+     highScores.sort((a, b) => b - a); //sort highest to lowest
+
+    localStorage.setItem(HIGH_SCORES_KEY, JSON.stringify(highScores.slice(0, 5)));  // keep only the top 5 scores
+}
+
+function endGame() {
+    clearInterval(dropTimer);
+    dropTimer = null;
+    isGameOver = true;
+    finalScoreEl.textContent = String(score);
+
+    if (score !== 0 ) {
+        saveHighestScores(score);
+    }
+
+    drawHighScores();
+    gameOverEl.showModal();
 }
 
 function gravityTick() {
@@ -284,15 +391,97 @@ function gravityTick() {
     }
     lockPiece();
     addScore(clearLines());
-    spawnNewPiece();
+
+    if (!spawnNewPiece()) {
+        drawCells();
+        endGame();
+        return;
+    }
+
     drawCells();
 }
 
+function pauseGame() {
+    if (isGameOver || isPaused) {
+        return;
+    }
+    clearInterval(dropTimer);
+    dropTimer = null;
+    isPaused = true;
+
+    pauseButton.textContent = 'Resume';
+}
+
+function resumeGame() {
+    if (isGameOver || !isPaused) {
+        return;
+    }
+    dropTimer = setInterval(gravityTick, currentInterval);
+    isPaused = false;
+
+    pauseButton.textContent = 'Pause';
+}
+
+function togglePause() {
+    if (isPaused) {
+        resumeGame();
+    } else {
+        pauseGame();
+    }
+}
+
+if (pauseButton) {
+    pauseButton.addEventListener('click', togglePause);
+}
+
+document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+        pauseGame();
+    }
+});
+
+function restartGame() {
+    clearInterval(dropTimer);
+
+    for (let i = 0; i < ROWS; i++) {
+        board[i] = Array(COLS).fill(0);
+    }
+    score = 0;
+    level = 1;
+    linesTotal = 0;
+    levelEl.textContent = String(level);
+    linesEl.textContent = String(linesTotal);
+    currentInterval = DROP_INTERVAL;
+    scoreEl.textContent = String(score);
+    bag.length = 0;
+    queue.length = 0;
+    isGameOver = false;
+    isPaused = false;
+    pauseButton.textContent = 'Pause';
+    if (gameOverEl.open) {
+        gameOverEl.close();
+    }
+    fillQueue();
+    spawnNewPiece();
+    drawCells();
+    dropTimer = setInterval(gravityTick, currentInterval);
+}
+
+if (restartButton) {
+    restartButton.addEventListener('click', restartGame);
+}
+
+if (playAgainButton) {
+    playAgainButton.addEventListener('click', restartGame);
+}
+
+
 buildCells();
 buildPreviewQueue();
+drawHighScores();
 fillQueue();
 spawnNewPiece();
 drawCells();
 
-dropTimer = setInterval(gravityTick, DROP_INTERVAL);
+dropTimer = setInterval(gravityTick, currentInterval);
 

@@ -218,7 +218,9 @@ section:first-of-type h2 {
    excluded — they fill their own containers. */
 main p,
 main ul:not(.project-grid):not(.tech-stack) li {
-    max-width: 68ch;
+    max-width: 90ch;
+    justify-content: center;
+    text-align: center;
 }
 
 .project-card p {
@@ -238,7 +240,24 @@ footer {
 /* ==========================================================================
    4. Components
    ========================================================================== */
+/* --- About me ---*/
+.about-title {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 2rem;
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-shadow:
+            3px 3px 0 #00b8d4,
+            6px 6px 0 #aa00ff;
+}
+.intro  {
+    display: flex;
+    justify-content: center;
 
+}
 /* --- Profile figure --- */
 
 .profile {
@@ -335,10 +354,6 @@ footer {
     max-width: none;
     margin: 0;
 }
-
-/* The mask uses the SVG only as a stencil, so background-color IS the icon's
-   color — which is why it follows the theme. --icon is set from JS per
-   weather condition; the `none` fallback keeps the box blank until then. */
 .weather-icon {
     flex-shrink: 0;
     width: 44px;
@@ -398,12 +413,97 @@ footer {
 }
 
 /* --- Game board --- */
+.game-page > h2,
+.game-page > p {
+    text-align: center;
+}
 
 .game-layout {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    justify-content: center;
     gap: 1.5rem;
+}
+
+.game-title {
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(1.25rem, 5vw, 2.5rem);
+    letter-spacing: 0.05em;
+}
+/* --- Tray --- */
+
+.tray {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 170px;
+}
+
+.tray-card {
+    padding: 0.75rem 1rem;
+    text-align: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.tray-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.high-scores {
+    margin: 0;
+    padding-left: 1.5rem;
+    text-align: left;
+    font-variant-numeric: tabular-nums;
+}
+
+.high-scores li {
+    max-width: none;
+}
+
+/* --- Controls --- */
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    max-width: none;
+    margin-top: 1.5rem;
+}
+
+.game-controls button {
+    font-size: 1.75rem;
+    font-family: "Press Start 2P", monospace;
+    text-align: center;
+    display: inline-block;
+    margin: 0 0.5rem;
+    padding: 0.75rem 1.5rem;
+    min-width: 8rem;
+    font-weight: bold;
+    color: var(--bg);
+    text-shadow: -1px -1px black, 1px 1px white;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: 0 .2em gray;
+    cursor: pointer;
+}
+
+.game-controls button:hover {
+    opacity: 0.85;
 }
 
 /* The 1px gap over a --border background draws the grid lines, so the 200
@@ -445,7 +545,7 @@ footer {
     grid-template-columns: repeat(4, 16px);
     grid-template-rows: repeat(4, 16px);
     gap: 1px;
-    margin-bottom: 0.75rem;
+    margin: 0 auto 0.5rem;
 }
 
 /* :not(.filled) out-specifies the .cell.piece-* rules above, so only the
@@ -468,6 +568,11 @@ footer {
 
 #game-over h3 {
     margin-top: 0;
+}
+
+.project-return {
+    justify-content: center;
+    max-width: none;
 }
 
 
