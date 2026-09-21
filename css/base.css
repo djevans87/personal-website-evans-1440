@@ -1,12 +1,16 @@
 /* ==========================================================================
-Order:
-1. Reset
-2. Base elements
-3. Layout regions
-4. Components
-5. Utilities
-6. User preferences
-========================================================================== */
+   base.css — layout, typography, and components shared by every page.
+   Colors come from the active theme file (theme-light / theme-dark), which
+   defines the custom properties this file consumes.
+
+   Order:
+     1. Reset
+     2. Base elements
+     3. Layout regions
+     4. Components
+     5. Utilities
+     6. User preferences
+   ========================================================================== */
 
 
 /* ==========================================================================
@@ -23,6 +27,9 @@ Order:
 /* ==========================================================================
    2. Base elements
    ========================================================================== */
+
+/* Structural tokens live here, not in the theme files — corner rounding is
+   the same in light and dark mode. Only colors differ per theme. */
 :root {
     --radius: 6px;
     --radius-lg: 10px;
@@ -61,6 +68,8 @@ a:hover {
     text-decoration-thickness: 2px;
 }
 
+/* :focus-visible rather than :focus — the ring shows for keyboard users
+   without appearing on every mouse click. */
 :focus-visible {
     border-radius: 2px;
     outline: 2px solid var(--accent);
@@ -123,6 +132,8 @@ tbody tr:nth-child(even) {
     background: var(--row-alt);
 }
 
+/* The :nth-child(even):hover half is needed to out-specify the stripe rule
+   above, which would otherwise tie and win on source order. */
 tbody tr:hover,
 tbody tr:nth-child(even):hover {
     background: var(--row-hover);
@@ -167,6 +178,7 @@ nav ul {
     list-style: none;
 }
 
+/* Padding sits on the link, not the li, so the whole clickable area grows. */
 nav a {
     display: inline-block;
     padding: 0.85rem 0;
@@ -179,6 +191,8 @@ nav a:hover {
     color: var(--accent);
 }
 
+/* aria-current is already in the markup for screen readers, so it doubles
+   as the styling hook for the active link — no extra class needed. */
 nav a[aria-current="page"] {
     color: var(--accent);
     border-bottom-color: var(--accent);
@@ -200,6 +214,8 @@ section:first-of-type h2 {
     margin-top: 0;
 }
 
+/* Cap body copy at a comfortable reading measure. Card and pill lists are
+   excluded — they fill their own containers. */
 main p,
 main ul:not(.project-grid):not(.tech-stack) li {
     max-width: 68ch;
@@ -234,11 +250,12 @@ footer {
 
 .profile img {
     width: 200px;
-    border-radius: 8px;
+    border-radius: var(--radius);
 }
 
 /* --- Project cards --- */
 
+/* auto-fit + minmax reflows from several columns to one with no media query. */
 .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -255,16 +272,19 @@ footer {
     padding: 1rem;
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
 }
 
+/* A fixed aspect ratio makes every screenshot the same height, so the
+   headings below them line up across cards. */
 .project-card img {
     width: 100%;
     aspect-ratio: 2 / 1;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: var(--radius);
 }
 
+/* Pushes the link to the bottom so links align across a row of cards. */
 .project-card a {
     margin-top: auto;
 }
@@ -287,11 +307,13 @@ footer {
     padding: 0.2rem 0.6rem;
     font-size: 0.8rem;
     border: 1px solid var(--accent);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
 }
 
 /* --- Table wrapper --- */
 
+/* Lets a wide table scroll inside its own box instead of pushing the whole
+   page sideways on a phone. */
 .table-wrap {
     margin-bottom: 2rem;
     overflow-x: auto;
@@ -306,7 +328,7 @@ footer {
     padding: 1.25rem;
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
 }
 
 #welcome .greeting-box p {
@@ -314,13 +336,16 @@ footer {
     margin: 0;
 }
 
+/* The mask uses the SVG only as a stencil, so background-color IS the icon's
+   color — which is why it follows the theme. --icon is set from JS per
+   weather condition; the `none` fallback keeps the box blank until then. */
 .weather-icon {
     flex-shrink: 0;
     width: 44px;
     height: 44px;
     background-color: var(--icon-color);
-    -webkit-mask: var(--icon) center / contain no-repeat;
-    mask: var(--icon) center / contain no-repeat;
+    -webkit-mask: var(--icon, none) center / contain no-repeat;
+    mask: var(--icon, none) center / contain no-repeat;
 }
 
 #name-form {
@@ -331,6 +356,8 @@ footer {
     margin-bottom: 1.25rem;
 }
 
+/* The `hidden` attribute applies display:none at low specificity, which the
+   #name-form rule above would otherwise override. */
 #name-form[hidden] {
     display: none;
 }
@@ -341,7 +368,7 @@ footer {
     color: var(--text);
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: var(--radius, 6px);
+    border-radius: var(--radius);
 }
 
 #name-form button {
@@ -350,7 +377,7 @@ footer {
     color: var(--bg);
     background: var(--accent);
     border: none;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     cursor: pointer;
 }
 
@@ -368,6 +395,79 @@ footer {
     border: none;
     text-decoration: underline;
     cursor: pointer;
+}
+
+/* --- Game board --- */
+
+.game-layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+/* The 1px gap over a --border background draws the grid lines, so the 200
+   cells don't each need their own border. */
+#board {
+    display: grid;
+    grid-template-columns: repeat(10, 30px);
+    grid-template-rows: repeat(20, 30px);
+    gap: 1px;
+    width: max-content;
+    padding: 1px;
+    background: var(--border);
+}
+
+.cell {
+    background: var(--card-bg);
+}
+
+/* One class per piece letter, matching the letter stored in the board array
+   and the keys of PIECES in game.js. */
+.cell.piece-I { background: #00b8d4; }
+.cell.piece-J { background: #3d5afe; }
+.cell.piece-L { background: #ff8f00; }
+.cell.piece-O { background: #ffc400; }
+.cell.piece-S { background: #00bfa5; }
+.cell.piece-T { background: #aa00ff; }
+.cell.piece-Z { background: #f50057; }
+
+/* --- Next-piece tray --- */
+
+.tray h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+}
+
+/* 4x4 because the I-piece is the widest shape. */
+.preview {
+    display: grid;
+    grid-template-columns: repeat(4, 16px);
+    grid-template-rows: repeat(4, 16px);
+    gap: 1px;
+    margin-bottom: 0.75rem;
+}
+
+/* :not(.filled) out-specifies the .cell.piece-* rules above, so only the
+   empty cells go transparent and the shapes keep their color. */
+.preview .cell:not(.filled) {
+    background: transparent;
+}
+
+#game-over {
+    padding: 1.5rem;
+    color: var(--text);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+#game-over::backdrop {
+    background: rgb(0 0 0 / 0.5);
+}
+
+#game-over h3 {
+    margin-top: 0;
 }
 
 
@@ -394,4 +494,3 @@ footer {
         scroll-behavior: auto;
     }
 }
- 

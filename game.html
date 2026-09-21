@@ -24,7 +24,27 @@
 </nav>
 <main>
     <h2>Block Drop</h2>
-    <p>Game goes here.</p>
+    <div class="game-layout">
+        <div id="board"></div>
+        <aside class="tray">
+            <h3>Score</h3>
+            <p class="score"><output id="score">0</output></p>
+            <h3>Next</h3>
+            <div class="preview" id="preview-0"></div>
+            <div class="preview" id="preview-1"></div>
+            <div class="preview" id="preview-2"></div>
+        </aside>
+    </div>
+    <p>
+        <button type="button" id="restart">Restart</button>
+        <button type="button" id="pause">Pause</button>
+    </p>
+
+    <dialog id="game-over">
+        <h3>Game over</h3>
+        <p>You scored <output id="final-score">0</output>.</p>
+        <button type="button" id="play-again" autofocus>Play again</button>
+    </dialog>
     <p><a href="index.html#projects">Back to my current projects</a></p>
 </main>
 
