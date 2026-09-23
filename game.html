@@ -27,7 +27,30 @@
 <main class="game-page">
     <h2 class="game-title">Block Drop</h2>
     <div class="game-layout">
+        <div class="board-column">
         <div id="board"></div>
+
+        <p class="game-controls">
+            <button type="button" id="start-button">Start</button>
+            <button type="button" id="pause">Pause</button>
+        </p>
+            <details class="controls-legend">
+                <summary>Controls</summary>
+                <dl>
+                    <dt><kbd>←</kbd> <kbd>→</kbd></dt>
+                    <dd>Move left and right</dd>
+
+                    <dt><kbd>↑</kbd></dt>
+                    <dd>Rotate clockwise</dd>
+
+                    <dt><kbd>↓</kbd></dt>
+                    <dd>Drop faster</dd>
+
+                    <dt><kbd>P</kbd></dt>
+                    <dd>Pause and resume</dd>
+                </dl>
+            </details>
+        </div>
         <aside class="tray">
             <div class="tray-card">
                 <h3>Level</h3>
@@ -63,10 +86,7 @@
             </div>
         </aside>
     </div>
-    <p class="game-controls">
-        <button type="button" id="restart">Restart</button>
-        <button type="button" id="pause">Pause</button>
-    </p>
+
 
     <dialog id="game-over">
         <h3>Game over</h3>

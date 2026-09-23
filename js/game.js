@@ -48,12 +48,13 @@ const LINE_SCORES = [0, 100, 300, 500, 800];
 
 const gameOverEl = document.querySelector('#game-over');
 const finalScoreEl = document.querySelector('#final-score');
-const restartButton = document.querySelector('#restart');
+const startButton = document.querySelector('#start-button');
 const pauseButton = document.querySelector('#pause');
 const playAgainButton = document.querySelector('#play-again');
 
 let isGameOver = false;
 let isPaused = false;
+let isRunning = false;
 
 const HIGH_SCORES_KEY = 'block-drop-high-scores';
 const highScoreEls = [
@@ -184,6 +185,9 @@ function rotatePiece() {
 }
 
 document.addEventListener('keydown', function (event) {
+   if (!isRunning) {
+       return;
+   }
     if (event.key === 'p' || event.key === 'P') {
         event.preventDefault();
         togglePause();
@@ -402,7 +406,7 @@ function gravityTick() {
 }
 
 function pauseGame() {
-    if (isGameOver || isPaused) {
+    if (!isRunning || isGameOver || isPaused) {
         return;
     }
     clearInterval(dropTimer);
@@ -413,7 +417,7 @@ function pauseGame() {
 }
 
 function resumeGame() {
-    if (isGameOver || !isPaused) {
+    if (!isRunning || isGameOver || !isPaused) {
         return;
     }
     dropTimer = setInterval(gravityTick, currentInterval);
@@ -440,16 +444,17 @@ document.addEventListener('visibilitychange', function () {
     }
 });
 
-function restartGame() {
+function startGame() {
     clearInterval(dropTimer);
 
     for (let i = 0; i < ROWS; i++) {
         board[i] = Array(COLS).fill(0);
     }
+
     score = 0;
-    level = 1;
+    level = 0;
     linesTotal = 0;
-    levelEl.textContent = String(level);
+    levelEl.textContent = String(level + 1);
     linesEl.textContent = String(linesTotal);
     currentInterval = DROP_INTERVAL;
     scoreEl.textContent = String(score);
@@ -458,6 +463,7 @@ function restartGame() {
     isGameOver = false;
     isPaused = false;
     pauseButton.textContent = 'Pause';
+    startButton.textContent = 'Restart';
     if (gameOverEl.open) {
         gameOverEl.close();
     }
@@ -467,21 +473,17 @@ function restartGame() {
     dropTimer = setInterval(gravityTick, currentInterval);
 }
 
-if (restartButton) {
-    restartButton.addEventListener('click', restartGame);
+if (startButton) {
+    startButton.addEventListener('click', startGame);
 }
 
 if (playAgainButton) {
-    playAgainButton.addEventListener('click', restartGame);
+    playAgainButton.addEventListener('click', startGame);
 }
 
 
 buildCells();
 buildPreviewQueue();
 drawHighScores();
-fillQueue();
-spawnNewPiece();
-drawCells();
 
-dropTimer = setInterval(gravityTick, currentInterval);
 
