@@ -379,6 +379,7 @@ function endGame() {
     clearInterval(dropTimer);
     dropTimer = null;
     isGameOver = true;
+    isRunning = false;
     finalScoreEl.textContent = String(score);
 
     if (score !== 0 ) {
@@ -435,7 +436,10 @@ function togglePause() {
 }
 
 if (pauseButton) {
-    pauseButton.addEventListener('click', togglePause);
+    pauseButton.addEventListener('click', function () {
+        togglePause();
+        pauseButton.blur();
+    });
 }
 
 document.addEventListener('visibilitychange', function () {
@@ -462,6 +466,7 @@ function startGame() {
     queue.length = 0;
     isGameOver = false;
     isPaused = false;
+    isRunning = true;
     pauseButton.textContent = 'Pause';
     startButton.textContent = 'Restart';
     if (gameOverEl.open) {
@@ -474,7 +479,10 @@ function startGame() {
 }
 
 if (startButton) {
-    startButton.addEventListener('click', startGame);
+    startButton.addEventListener('click', function () {
+        startGame();
+        startButton.blur();
+    });
 }
 
 if (playAgainButton) {

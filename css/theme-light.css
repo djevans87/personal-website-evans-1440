@@ -7,4 +7,11 @@
     --border: #d7d7d7;
     --row-alt: #e6e9ec;
     --row-hover: #d8e3ec;
+    --error-text: #b00020;
+    --error-bg: #fde8ea;
+    --icon-color: #1f5c8b;
+    --stat-health: #c62828;
+    --stat-mana: #1565c0;
+    --stat-strength: #e65100;
+    --stat-agility: #2e7d32;
 }

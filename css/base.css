@@ -217,7 +217,7 @@ section:first-of-type h2 {
 /* Cap body copy at a comfortable reading measure. Card and pill lists are
    excluded — they fill their own containers. */
 main p,
-main ul:not(.project-grid):not(.tech-stack) li {
+main ul:not(.project-grid):not(.tech-stack):not(.stat-list) li {
     max-width: 90ch;
     justify-content: center;
     text-align: center;
@@ -241,7 +241,7 @@ footer {
    4. Components
    ========================================================================== */
 /* --- About me ---*/
-.about-title {
+.about-title, .assignments-title {
     display: flex;
     justify-content: center;
     margin: 0 0 2rem;
@@ -620,6 +620,263 @@ kbd {
     max-width: none;
 }
 
+/* ---- Assignments ---*/
+.storm-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    justify-content: center;
+}
+
+.storm-controls input {
+    font: inherit;
+    width: 5rem;
+    padding: 0.4rem;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.storm-stage {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.assignments-title,
+#popup-storm > h2,
+#popup-storm > p,
+#hunter-system > h2,
+#hunter-system > p{
+    text-align: center;
+}
+
+.popup {
+    position: absolute;
+    width: 150px;
+    padding: 0.5rem;
+    font-size: 0.7rem;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
+    animation: popIn 0.25s ease-out both;
+}
+
+.storm-error {
+    color: var(--error-text);
+    background: var(--error-bg);
+    border: 2px solid var(--error-text);
+}
+
+/* ---- Hunter Level Up ----*/
+
+#hunter-system > h2,
+#hunter-system > p {
+    text-align: center;
+}
+
+.hunter-layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.hunter-controls {
+    display: flex;
+    flex: 1 1 260px;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 22rem;
+}
+
+.hunter-controls fieldset {
+    margin: 0 0 1rem;
+    padding: 0;
+    border: none;
+}
+
+.hunter-controls legend {
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+/* Label column + input column; every field lines up. */
+.field {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.6rem;
+    text-align: left;
+}
+
+.hunter-controls input:not([type="range"]) {
+    width: 100%;
+    font: inherit;
+    padding: 0.4rem 0.6rem;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.hunter-controls button {
+    font: inherit;
+    padding: 0.45rem 1.25rem;
+    color: var(--bg);
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+}
+
+/* Label and output on one row, slider and button full width below. */
+.level-panel {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.level-panel input,
+.level-panel button {
+    grid-column: 1 / -1;
+}
+
+.level-panel output {
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- Character sheet --- */
+
+.hunter-card {
+    flex: 2 1 340px;
+    max-width: 32rem;
+}
+
+/* Same specificity as .tray-card h3 (0,1,1), so this wins by coming later
+   in the file. It undoes the small uppercase label style for the name. */
+.hunter-card h3 {
+    margin: 0.5rem 0 0;
+    font-size: 1.35rem;
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--text);
+}
+
+.hunter-level {
+    margin: 0;
+    color: var(--muted);
+}
+
+/* Shared mask-icon rules — same technique as .weather-icon. */
+.hunter-avatar,
+.leveled-up-hunter-avatar,
+.stat-icon {
+    flex-shrink: 0;
+    background-color: var(--icon-color);
+    -webkit-mask: var(--icon, none) center / contain no-repeat;
+    mask: var(--icon, none) center / contain no-repeat;
+}
+
+.hunter-avatar {
+    --icon: url("../images/icons/assignments/character_start.svg");
+    display: block;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto;
+}
+
+.leveled-up-hunter-avatar {
+    --icon: url("../images/icons/assignments/character_level_up.svg");
+    display: block;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto;
+}
+.stat-list {
+    display: grid;
+    gap: 0.9rem;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* icon | label | bar (takes leftover space) | before → after */
+.stat {
+    display: grid;
+    grid-template-columns: auto 5rem 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: left;
+}
+
+/* Each row sets two custom properties. Both inherit down to the icon,
+   the fill, and the marker, so one rule per stat themes the whole row. */
+.stat[data-stat="health"]   { --stat-color: var(--stat-health);   --icon: url("../images/icons/assignments/health.svg"); }
+.stat[data-stat="mana"]     { --stat-color: var(--stat-mana);     --icon: url("../images/icons/assignments/mana.svg"); }
+.stat[data-stat="strength"] { --stat-color: var(--stat-strength); --icon: url("../images/icons/assignments/strength.svg"); }
+.stat[data-stat="agility"]  { --stat-color: var(--stat-agility);  --icon: url("../images/icons/assignments/agility.svg"); }
+
+.stat-icon {
+    width: 28px;
+    height: 28px;
+    background-color: var(--stat-color);
+}
+
+.stat-bar {
+    position: relative;
+    height: 0.75rem;
+    overflow: hidden;
+    background: var(--border);
+    border-radius: var(--radius-pill);
+}
+
+/* JS sets --fill (0 to 1) on .stat-bar. scaleX stretches the fill from
+   its left edge. No border-radius here: scaling would squash the curve,
+   so the parent's overflow + radius does the rounding instead. */
+.stat-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--stat-color);
+    transform: scaleX(var(--fill, 0));
+    transform-origin: left;
+    transition: transform 0.8s ease-out;
+}
+
+/* Thin marker at the previous value (--prev, also 0 to 1), so you can
+   see how much the bar grew. */
+.stat-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--prev, 0) * 100%);
+    width: 2px;
+    background: var(--text);
+    opacity: 0.6;
+}
+
+.stat-values {
+    min-width: 8ch;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+.stat-after {
+    font-weight: 600;
+}
 
 /* ==========================================================================
    5. Utilities
@@ -635,6 +892,16 @@ kbd {
 }
 
 
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .popup { animation: none; }
+}
+
+
 /* ==========================================================================
    6. User preferences
    ========================================================================== */
@@ -643,4 +910,6 @@ kbd {
     html {
         scroll-behavior: auto;
     }
+    .popup { animation: none; }
+    .stat-fill { transition: none; }
 }
