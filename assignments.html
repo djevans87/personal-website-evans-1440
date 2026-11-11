@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive versions of my CIS 1440 JavaScript assignments.">
+    <title>Assignments | Darian Evans</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/theme-light.css" id="theme">
+    <script src="js/shared.js" defer></script>
+    <script src="js/assignments.js" defer></script>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <h1>Darian Evans</h1>
+    <button type="button" id="theme-toggle">Switch theme</button>
+</header>
+<nav aria-label="main navigation">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="game.html" >Block Drop</a></li>
+        <li><a href="assignments.html" aria-current="page">Assignments</a></li>
+    </ul>
+</nav>
+<main class="assignments-page">
+    <h2 class="assignments-title">Current Class Assignments</h2>
+    <section id="popup-storm">
+        <h2>Popup Storm</h2>
+        <p>A safe recreation of the 1990s 'You Are An Idiot' website that spawned endless popup windows until the browser failed.</p>
+
+        <div class="storm-controls">
+            <label for="storm-count">How many?</label>
+            <input type="number" id="storm-count" value="15" min="1" max="100" required>
+            <button type="button" id="storm-start">Unleash</button>
+            <button type="button" id="storm-clear">Clear</button>
+        </div>
+        <p id="storm-error" class="storm-error" role="alert" hidden></p>
+        <div class="storm-stage" id="storm-area"></div>
+    </section>
+    <section id="hunter-system" aria-labelledby="hunter-heading">
+        <h2 id="hunter-heading">Hunter Level Up System</h2>
+        <p>Create a hunter, then level them up. Every level applies the same buff:
+            +30 health, +10 mana, +5 strength, +2 agility.</p>
+
+        <div class="hunter-layout">
+            <!-- Left column: controls -->
+            <div class="hunter-controls">
+                <form id="hunter-form" class="tray-card" novalidate>
+                    <fieldset>
+                        <legend>Create a hunter</legend>
+                        <div class="field">
+                            <label for="hunter-name">Name</label>
+                            <input type="text" id="hunter-name" value="Hunter" maxlength="20" required>
+                        </div>
+                        <div class="field">
+                            <label for="hunter-health">Health</label>
+                            <input type="number" id="hunter-health" value="0" min="1" max="999" required>
+                        </div>
+                        <div class="field">
+                            <label for="hunter-mana">Mana</label>
+                            <input type="number" id="hunter-mana" value="0" min="1" max="999" required>
+                        </div>
+                        <div class="field">
+                            <label for="hunter-strength">Strength</label>
+                            <input type="number" id="hunter-strength" value="0" min="1" max="999" required>
+                        </div>
+                        <div class="field">
+                            <label for="hunter-agility">Agility</label>
+                            <input type="number" id="hunter-agility" value="0" min="1" max="999" required>
+                        </div>
+                    </fieldset>
+                    <button type="submit">Create hunter</button>
+                </form>
+
+                <div class="tray-card level-panel">
+                    <label for="hunter-levels">Levels to gain</label>
+                    <output id="hunter-levels-out" for="hunter-levels">1</output>
+                    <input type="range" id="hunter-levels" min="1" max="10" value="1">
+                    <button type="button" id="hunter-level-up">Level up</button>
+                </div>
+
+                <p id="hunter-error" class="storm-error" role="alert" hidden></p>
+            </div>
+
+            <!-- Right column: character sheet -->
+            <article class="tray-card hunter-card" aria-labelledby="hunter-card-name">
+                <span class="hunter-avatar" aria-hidden="true"></span>
+                <h3 id="hunter-card-name">Hunter</h3>
+
+                <ul class="stat-list">
+                    <li class="stat" data-stat="health">
+                        <span class="stat-icon" aria-hidden="true"></span>
+                        <span class="stat-label">Health</span>
+                        <span class="stat-bar" aria-hidden="true"><span class="stat-fill"></span></span>
+                        <span class="stat-values">
+                        <span class="stat-before">100</span>
+                        <span aria-hidden="true">&rarr;</span><span class="visually-hidden">to</span>
+                        <span class="stat-after">100</span>
+                    </span>
+                    </li>
+                    <li class="stat" data-stat="mana">
+                        <span class="stat-icon" aria-hidden="true"></span>
+                        <span class="stat-label">Mana</span>
+                        <span class="stat-bar" aria-hidden="true"><span class="stat-fill"></span></span>
+                        <span class="stat-values">
+                        <span class="stat-before">50</span>
+                        <span aria-hidden="true">&rarr;</span><span class="visually-hidden">to</span>
+                        <span class="stat-after">50</span>
+                    </span>
+                    </li>
+                    <li class="stat" data-stat="strength">
+                        <span class="stat-icon" aria-hidden="true"></span>
+                        <span class="stat-label">Strength</span>
+                        <span class="stat-bar" aria-hidden="true"><span class="stat-fill"></span></span>
+                        <span class="stat-values">
+                        <span class="stat-before">10</span>
+                        <span aria-hidden="true">&rarr;</span><span class="visually-hidden">to</span>
+                        <span class="stat-after">10</span>
+                    </span>
+                    </li>
+                    <li class="stat" data-stat="agility">
+                        <span class="stat-icon" aria-hidden="true"></span>
+                        <span class="stat-label">Agility</span>
+                        <span class="stat-bar" aria-hidden="true"><span class="stat-fill"></span></span>
+                        <span class="stat-values">
+                        <span class="stat-before">10</span>
+                        <span aria-hidden="true">&rarr;</span><span class="visually-hidden">to</span>
+                        <span class="stat-after">10</span>
+                    </span>
+                    </li>
+                </ul>
+                <span class="leveled-up-hunter-avatar" aria-hidden="true"></span>
+                <h3 id="leveled-up-hunter-card-name">Leveled Up Hunter</h3>
+                <p class="hunter-level">Level <span id="hunter-level-value">1</span></p>
+            </article>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p><small>&copy; <span id="year">2026</span> Darian Evans &middot; Built for CIS 1440</small></p>
+    <p><small> Weather Icons by
+        <a href="https://www.svgrepo.com/" target="_blank" rel="noopener noreferrer">SVG Repo</a>
+    </small></p>
+    <p><small>Hunter icons by
+        <a href="https://delapouite.com" target="_blank" rel="noopener noreferrer">Delapouite</a>, and
+        <a href="https://lorcblog.blogspot.com" target="_blank" rel="noopener noreferrer">Lorc</a>
+        from <a href="https://game-icons.net/" target="_blank" rel="noopener noreferrer">game-icons.net</a>,
+        licensed <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">CC BY 3.0</a>
+        (background removed)
+    </small></p>
+</footer>
+</body>
+</html>

@@ -1,12 +1,16 @@
 /* ==========================================================================
-Order:
-1. Reset
-2. Base elements
-3. Layout regions
-4. Components
-5. Utilities
-6. User preferences
-========================================================================== */
+   base.css — layout, typography, and components shared by every page.
+   Colors come from the active theme file (theme-light / theme-dark), which
+   defines the custom properties this file consumes.
+
+   Order:
+     1. Reset
+     2. Base elements
+     3. Layout regions
+     4. Components
+     5. Utilities
+     6. User preferences
+   ========================================================================== */
 
 
 /* ==========================================================================
@@ -23,6 +27,9 @@ Order:
 /* ==========================================================================
    2. Base elements
    ========================================================================== */
+
+/* Structural tokens live here, not in the theme files — corner rounding is
+   the same in light and dark mode. Only colors differ per theme. */
 :root {
     --radius: 6px;
     --radius-lg: 10px;
@@ -61,6 +68,8 @@ a:hover {
     text-decoration-thickness: 2px;
 }
 
+/* :focus-visible rather than :focus — the ring shows for keyboard users
+   without appearing on every mouse click. */
 :focus-visible {
     border-radius: 2px;
     outline: 2px solid var(--accent);
@@ -123,6 +132,8 @@ tbody tr:nth-child(even) {
     background: var(--row-alt);
 }
 
+/* The :nth-child(even):hover half is needed to out-specify the stripe rule
+   above, which would otherwise tie and win on source order. */
 tbody tr:hover,
 tbody tr:nth-child(even):hover {
     background: var(--row-hover);
@@ -167,6 +178,7 @@ nav ul {
     list-style: none;
 }
 
+/* Padding sits on the link, not the li, so the whole clickable area grows. */
 nav a {
     display: inline-block;
     padding: 0.85rem 0;
@@ -179,6 +191,8 @@ nav a:hover {
     color: var(--accent);
 }
 
+/* aria-current is already in the markup for screen readers, so it doubles
+   as the styling hook for the active link — no extra class needed. */
 nav a[aria-current="page"] {
     color: var(--accent);
     border-bottom-color: var(--accent);
@@ -200,9 +214,13 @@ section:first-of-type h2 {
     margin-top: 0;
 }
 
+/* Cap body copy at a comfortable reading measure. Card and pill lists are
+   excluded — they fill their own containers. */
 main p,
-main ul:not(.project-grid):not(.tech-stack) li {
-    max-width: 68ch;
+main ul:not(.project-grid):not(.tech-stack):not(.stat-list) li {
+    max-width: 90ch;
+    justify-content: center;
+    text-align: center;
 }
 
 .project-card p {
@@ -222,7 +240,24 @@ footer {
 /* ==========================================================================
    4. Components
    ========================================================================== */
+/* --- About me ---*/
+.about-title, .assignments-title {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 2rem;
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-shadow:
+            3px 3px 0 #00b8d4,
+            6px 6px 0 #aa00ff;
+}
+.intro  {
+    display: flex;
+    justify-content: center;
 
+}
 /* --- Profile figure --- */
 
 .profile {
@@ -234,11 +269,12 @@ footer {
 
 .profile img {
     width: 200px;
-    border-radius: 8px;
+    border-radius: var(--radius);
 }
 
 /* --- Project cards --- */
 
+/* auto-fit + minmax reflows from several columns to one with no media query. */
 .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -255,16 +291,19 @@ footer {
     padding: 1rem;
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
 }
 
+/* A fixed aspect ratio makes every screenshot the same height, so the
+   headings below them line up across cards. */
 .project-card img {
     width: 100%;
     aspect-ratio: 2 / 1;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: var(--radius);
 }
 
+/* Pushes the link to the bottom so links align across a row of cards. */
 .project-card a {
     margin-top: auto;
 }
@@ -287,11 +326,13 @@ footer {
     padding: 0.2rem 0.6rem;
     font-size: 0.8rem;
     border: 1px solid var(--accent);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
 }
 
 /* --- Table wrapper --- */
 
+/* Lets a wide table scroll inside its own box instead of pushing the whole
+   page sideways on a phone. */
 .table-wrap {
     margin-bottom: 2rem;
     overflow-x: auto;
@@ -306,21 +347,20 @@ footer {
     padding: 1.25rem;
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
 }
 
 #welcome .greeting-box p {
     max-width: none;
     margin: 0;
 }
-
 .weather-icon {
     flex-shrink: 0;
     width: 44px;
     height: 44px;
     background-color: var(--icon-color);
-    -webkit-mask: var(--icon) center / contain no-repeat;
-    mask: var(--icon) center / contain no-repeat;
+    -webkit-mask: var(--icon, none) center / contain no-repeat;
+    mask: var(--icon, none) center / contain no-repeat;
 }
 
 #name-form {
@@ -331,6 +371,8 @@ footer {
     margin-bottom: 1.25rem;
 }
 
+/* The `hidden` attribute applies display:none at low specificity, which the
+   #name-form rule above would otherwise override. */
 #name-form[hidden] {
     display: none;
 }
@@ -341,7 +383,7 @@ footer {
     color: var(--text);
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: var(--radius, 6px);
+    border-radius: var(--radius);
 }
 
 #name-form button {
@@ -350,7 +392,7 @@ footer {
     color: var(--bg);
     background: var(--accent);
     border: none;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     cursor: pointer;
 }
 
@@ -370,6 +412,471 @@ footer {
     cursor: pointer;
 }
 
+/* --- Game board --- */
+.game-page > h2,
+.game-page > p {
+    text-align: center;
+}
+
+.game-layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.5rem;
+}
+.board-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+.controls-legend {
+    max-width: 22rem;
+    margin: 0.5rem auto 0;
+    text-align: left;
+}
+
+.controls-legend summary {
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+}
+
+.controls-legend dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0.6rem 1rem;
+    margin: 1rem 0 0;
+}
+
+.controls-legend dt,
+.controls-legend dd {
+    margin: 0;
+}
+
+kbd {
+    display: inline-block;
+    min-width: 1.9rem;
+    padding: 0.2rem 0.4rem;
+    font-family: inherit;
+    font-size: 0.8rem;
+    text-align: center;
+    color: var(--text);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-bottom-width: 3px;
+    border-radius: var(--radius);
+}
+
+.game-title {
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(1.25rem, 5vw, 2.5rem);
+    letter-spacing: 0.05em;
+}
+/* --- Tray --- */
+
+.tray {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 170px;
+}
+
+.tray-card {
+    padding: 0.75rem 1rem;
+    text-align: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.tray-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.high-scores {
+    margin: 0;
+    padding-left: 1.5rem;
+    text-align: left;
+    font-variant-numeric: tabular-nums;
+}
+
+.high-scores li {
+    max-width: none;
+}
+
+/* --- Controls --- */
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    max-width: none;
+    margin-top: 1.5rem;
+}
+
+.game-controls button {
+    font-size: 1.75rem;
+    font-family: "Press Start 2P", monospace;
+    text-align: center;
+    display: inline-block;
+    margin: 0 0.5rem;
+    padding: 0.75rem 1.5rem;
+    min-width: 8rem;
+    font-weight: bold;
+    color: var(--bg);
+    text-shadow: -1px -1px black, 1px 1px white;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: 0 .2em gray;
+    cursor: pointer;
+}
+
+.game-controls button:hover {
+    opacity: 0.85;
+}
+
+/* The 1px gap over a --border background draws the grid lines, so the 200
+   cells don't each need their own border. */
+#board {
+    --cell-size: 40px;
+    display: grid;
+    grid-template-columns: repeat(10,var(--cell-size));
+    grid-template-rows: repeat(20, var(--cell-size));
+    gap: 1px;
+    width: max-content;
+    padding: 1px;
+    background: var(--border);
+}
+
+.cell {
+    background: var(--card-bg);
+}
+
+/* One class per piece letter, matching the letter stored in the board array
+   and the keys of PIECES in game.js. */
+.cell.piece-I { background: #00b8d4; }
+.cell.piece-J { background: #3d5afe; }
+.cell.piece-L { background: #ff8f00; }
+.cell.piece-O { background: #ffc400; }
+.cell.piece-S { background: #00bfa5; }
+.cell.piece-T { background: #aa00ff; }
+.cell.piece-Z { background: #f50057; }
+
+/* --- Next-piece tray --- */
+
+.tray h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+}
+
+/* 4x4 because the I-piece is the widest shape. */
+.preview {
+    display: grid;
+    grid-template-columns: repeat(4, 16px);
+    grid-template-rows: repeat(4, 16px);
+    gap: 1px;
+    margin: 0 auto 0.5rem;
+}
+
+/* :not(.filled) out-specifies the .cell.piece-* rules above, so only the
+   empty cells go transparent and the shapes keep their color. */
+.preview .cell:not(.filled) {
+    background: transparent;
+}
+
+#game-over {
+    padding: 1.5rem;
+    color: var(--text);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+#game-over::backdrop {
+    background: rgb(0 0 0 / 0.5);
+}
+
+#game-over h3 {
+    margin-top: 0;
+}
+
+.project-return {
+    justify-content: center;
+    max-width: none;
+}
+
+/* ---- Assignments ---*/
+.storm-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    justify-content: center;
+}
+
+.storm-controls input {
+    font: inherit;
+    width: 5rem;
+    padding: 0.4rem;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.storm-stage {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.assignments-title,
+#popup-storm > h2,
+#popup-storm > p,
+#hunter-system > h2,
+#hunter-system > p{
+    text-align: center;
+}
+
+.popup {
+    position: absolute;
+    width: 150px;
+    padding: 0.5rem;
+    font-size: 0.7rem;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
+    animation: popIn 0.25s ease-out both;
+}
+
+.storm-error {
+    color: var(--error-text);
+    background: var(--error-bg);
+    border: 2px solid var(--error-text);
+}
+
+/* ---- Hunter Level Up ----*/
+
+#hunter-system > h2,
+#hunter-system > p {
+    text-align: center;
+}
+
+.hunter-layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.hunter-controls {
+    display: flex;
+    flex: 1 1 260px;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 22rem;
+}
+
+.hunter-controls fieldset {
+    margin: 0 0 1rem;
+    padding: 0;
+    border: none;
+}
+
+.hunter-controls legend {
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+/* Label column + input column; every field lines up. */
+.field {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.6rem;
+    text-align: left;
+}
+
+.hunter-controls input:not([type="range"]) {
+    width: 100%;
+    font: inherit;
+    padding: 0.4rem 0.6rem;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.hunter-controls button {
+    font: inherit;
+    padding: 0.45rem 1.25rem;
+    color: var(--bg);
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+}
+
+/* Label and output on one row, slider and button full width below. */
+.level-panel {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.level-panel input,
+.level-panel button {
+    grid-column: 1 / -1;
+}
+
+.level-panel output {
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- Character sheet --- */
+
+.hunter-card {
+    flex: 2 1 340px;
+    max-width: 32rem;
+}
+
+/* Same specificity as .tray-card h3 (0,1,1), so this wins by coming later
+   in the file. It undoes the small uppercase label style for the name. */
+.hunter-card h3 {
+    margin: 0.5rem 0 0;
+    font-size: 1.35rem;
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--text);
+}
+
+.hunter-level {
+    margin: 0;
+    color: var(--muted);
+}
+
+/* Shared mask-icon rules — same technique as .weather-icon. */
+.hunter-avatar,
+.leveled-up-hunter-avatar,
+.stat-icon {
+    flex-shrink: 0;
+    background-color: var(--icon-color);
+    -webkit-mask: var(--icon, none) center / contain no-repeat;
+    mask: var(--icon, none) center / contain no-repeat;
+}
+
+.hunter-avatar {
+    --icon: url("../images/icons/assignments/character_start.svg");
+    display: block;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto;
+}
+
+.leveled-up-hunter-avatar {
+    --icon: url("../images/icons/assignments/character_level_up.svg");
+    display: block;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto;
+}
+.stat-list {
+    display: grid;
+    gap: 0.9rem;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* icon | label | bar (takes leftover space) | before → after */
+.stat {
+    display: grid;
+    grid-template-columns: auto 5rem 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: left;
+}
+
+/* Each row sets two custom properties. Both inherit down to the icon,
+   the fill, and the marker, so one rule per stat themes the whole row. */
+.stat[data-stat="health"]   { --stat-color: var(--stat-health);   --icon: url("../images/icons/assignments/health.svg"); }
+.stat[data-stat="mana"]     { --stat-color: var(--stat-mana);     --icon: url("../images/icons/assignments/mana.svg"); }
+.stat[data-stat="strength"] { --stat-color: var(--stat-strength); --icon: url("../images/icons/assignments/strength.svg"); }
+.stat[data-stat="agility"]  { --stat-color: var(--stat-agility);  --icon: url("../images/icons/assignments/agility.svg"); }
+
+.stat-icon {
+    width: 28px;
+    height: 28px;
+    background-color: var(--stat-color);
+}
+
+.stat-bar {
+    position: relative;
+    height: 0.75rem;
+    overflow: hidden;
+    background: var(--border);
+    border-radius: var(--radius-pill);
+}
+
+/* JS sets --fill (0 to 1) on .stat-bar. scaleX stretches the fill from
+   its left edge. No border-radius here: scaling would squash the curve,
+   so the parent's overflow + radius does the rounding instead. */
+.stat-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--stat-color);
+    transform: scaleX(var(--fill, 0));
+    transform-origin: left;
+    transition: transform 0.8s ease-out;
+}
+
+/* Thin marker at the previous value (--prev, also 0 to 1), so you can
+   see how much the bar grew. */
+.stat-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--prev, 0) * 100%);
+    width: 2px;
+    background: var(--text);
+    opacity: 0.6;
+}
+
+.stat-values {
+    min-width: 8ch;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+.stat-after {
+    font-weight: 600;
+}
 
 /* ==========================================================================
    5. Utilities
@@ -385,6 +892,16 @@ footer {
 }
 
 
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .popup { animation: none; }
+}
+
+
 /* ==========================================================================
    6. User preferences
    ========================================================================== */
@@ -393,5 +910,6 @@ footer {
     html {
         scroll-behavior: auto;
     }
+    .popup { animation: none; }
+    .stat-fill { transition: none; }
 }
- 

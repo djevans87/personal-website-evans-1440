@@ -10,6 +10,8 @@
     <script src="js/shared.js" defer></script>
     <script src="js/game.js" defer></script>
     <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
 <header>
@@ -20,18 +22,92 @@
     <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="game.html" aria-current="page">Block Drop</a></li>
+        <li><a href="assignments.html">Assignments</a></li>
     </ul>
 </nav>
-<main>
-    <h2>Block Drop</h2>
-    <p>Game goes here.</p>
-    <p><a href="index.html#projects">Back to my current projects</a></p>
+<main class="game-page">
+    <h2 class="game-title">Block Drop</h2>
+    <div class="game-layout">
+        <div class="board-column">
+        <div id="board"></div>
+
+        <p class="game-controls">
+            <button type="button" id="start-button">Start</button>
+            <button type="button" id="pause">Pause</button>
+        </p>
+            <details class="controls-legend">
+                <summary>Controls</summary>
+                <dl>
+                    <dt><kbd>←</kbd> <kbd>→</kbd></dt>
+                    <dd>Move left and right</dd>
+
+                    <dt><kbd>↑</kbd></dt>
+                    <dd>Rotate clockwise</dd>
+
+                    <dt><kbd>↓</kbd></dt>
+                    <dd>Drop faster</dd>
+
+                    <dt><kbd>P</kbd></dt>
+                    <dd>Pause and resume</dd>
+                </dl>
+            </details>
+        </div>
+        <aside class="tray">
+            <div class="tray-card">
+                <h3>Level</h3>
+                <output id="level" class="stat-value">1</output>
+            </div>
+
+            <div class="tray-card">
+                <h3>Score</h3>
+                <output id="score" class="stat-value">0</output>
+            </div>
+
+            <div class="tray-card">
+                <h3>Lines</h3>
+                <output id="lines" class="stat-value">0</output>
+            </div>
+
+            <div class="tray-card">
+                <h3>Next</h3>
+                <div class="preview" id="preview-0"></div>
+                <div class="preview" id="preview-1"></div>
+                <div class="preview" id="preview-2"></div>
+            </div>
+
+            <div class="tray-card">
+                <h3>High Scores</h3>
+                <ol class="high-scores">
+                    <li><output id="high-score-0">–</output></li>
+                    <li><output id="high-score-1">–</output></li>
+                    <li><output id="high-score-2">–</output></li>
+                    <li><output id="high-score-3">–</output></li>
+                    <li><output id="high-score-4">–</output></li>
+                </ol>
+            </div>
+        </aside>
+    </div>
+
+
+    <dialog id="game-over">
+        <h3>Game over</h3>
+        <p>You scored <output id="final-score">0</output>.</p>
+        <button type="button" id="play-again" autofocus>Play again</button>
+    </dialog>
+    <p class="project-return"><a href="index.html#projects">Back to my current projects</a></p>
 </main>
 
 <footer>
     <p><small>&copy; <span id="year">2026</span> Darian Evans &middot; Built for CIS 1440</small></p>
     <p><small> Weather Icons by
         <a href="https://www.svgrepo.com/" target="_blank" rel="noopener noreferrer">SVG Repo</a>
+    </small></p>
+    <p><small>Hunter icons by
+        <a href="https://delapouite.com" target="_blank" rel="noopener noreferrer">Delapouite</a>, and
+        <a href="https://lorcblog.blogspot.com" target="_blank" rel="noopener noreferrer">Lorc</a>
+        from <a href="https://game-icons.net/" target="_blank" rel="noopener noreferrer">game-icons.net</a>,
+        licensed <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">CC BY 3.0</a>
+        (background removed)
     </small></p>
 </footer>
 </body>
